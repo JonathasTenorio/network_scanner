@@ -10,16 +10,16 @@ varrer_rede(){
         if [ ! -z $host_up ];
         then
             local ip_completo=$endereco_ip$ip
-            scan_portas $ip_completo
+            scan_portas $ip_completo $2
         fi
     done
 
 }
 
-
 scan_portas(){
     local ip_ativo=$1
-    portas=(1 22 23 80 443)
+    read -r -a portas <<< "$(echo $2 | awk '{gsub(",", " "); print}')"
+    
         for porta in "${portas[@]}"
         do
             local flag_response=$(sudo hping3 -c 1 --syn -p "$porta" $ip_ativo 2>&1 | grep -ie "flags" -ie "icmp")
@@ -46,6 +46,4 @@ scan_portas(){
         done
 }
 
-
-
-varrer_rede $1
+varrer_rede $1 $2
