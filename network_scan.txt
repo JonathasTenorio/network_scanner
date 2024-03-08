@@ -1,5 +1,0 @@
-192.168.15.171 -> Porta 1 Fechada
-192.168.15.171 -> Porta 22/tcp Aberta
-192.168.15.171 -> Porta 23/tcp Aberta
-192.168.15.171 -> Porta 80 Filtrada
-192.168.15.171 -> Porta 443 Fechada
