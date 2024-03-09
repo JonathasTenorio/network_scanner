@@ -1,6 +1,6 @@
 #!/bin/bash
 
-clear
+#clear
 
 varrer_rede(){
     local endereco_ip=$(echo $1 | awk -F. '{ print $1"."$2"."$3"." }')
@@ -33,9 +33,6 @@ scan_portas(){
         done
     fi
 }
-
-
-
 
 verifica_status_porta(){
     local porta=$1
@@ -75,4 +72,25 @@ verifica_status_porta(){
     fi
 }
 
-varrer_rede $1 $2 $3
+if [[ $3 == -v ]];
+then
+    argumento_v=$3
+else
+    argumento_v=""
+fi
+
+if [[ -n $2 ]];
+then
+    porta_alvo=$2
+else
+    porta_alvo=1-100
+fi
+
+endereco="\b([0-9]{1,3}\.){3}[0-9]{1,3}\b"
+
+if [[ $1 =~ $endereco ]];
+then
+    varrer_rede $1 $porta_alvo $argumento_v
+else  
+    echo "Insira um formato de ip válido"
+fi
