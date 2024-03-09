@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#clear
+clear
 
 varrer_rede(){
     local endereco_ip=$(echo $1 | awk -F. '{ print $1"."$2"."$3"." }')
@@ -9,8 +9,8 @@ varrer_rede(){
         host_up=$(ping -c1 $endereco_ip$ip -w1 | grep -i ^64 | awk -F" " '{ print $1 }')
         if [ -n $host_up ];
         then
-            local ip_completo=$endereco_ip$ip
-            scan_portas $ip_completo $2
+            local ip_completo=$endereco_ip$ip 
+            scan_portas $ip_completo $2 $3
         fi
     done
 }
@@ -24,47 +24,55 @@ scan_portas(){
         local fim=$(echo "${portas[@]}" | awk -F- '{ print $2 }')
         for porta in $(seq $inicio $fim)
         do
-            verifica_status_porta $porta $ip_ativo
+            verifica_status_porta $porta $ip_ativo $3
         done
     else
         for porta in "${portas[@]}"
         do
-            verifica_status_porta $porta $ip_ativo
+            verifica_status_porta $porta $ip_ativo $3
         done
     fi
 }
 
+
+
+
 verifica_status_porta(){
     local porta=$1
     local ip_ativo=$2
-    local flag_response=$(sudo hping3 -c 1 --syn -p "$porta" $ip_ativo 2>&1 | grep -ie "flags" -ie "icmp")
-            if [[ -z $flag_response ]];
-            then 
-                enderecos_up+=( "$ip_ativo -> Porta $porta/tcp [   Filtrada  ]")
+    local verboso=$3
+    resposta_hping3=$(sudo hping3 -c 1 --syn -8 "$porta" $ip_ativo -V 2>&1 | grep "\.\.\." )
+    servico=$(echo "$resposta_hping3" | awk '{gsub(/\./, ":"); gsub(/[0-9]/, ":"); gsub(":", ""); gsub("RA", ""); gsub("SA", ""); gsub(" ", ""); print }')
+    if [[ -z "$servico" ]];
+    then
+        servico=$(echo "?")
+    fi
+    pega_flag_resposta=$(echo "$resposta_hping3" | awk -F":" '{gsub(" ", ""); print  $2}' ) 
+    if [[ -n "$pega_flag_resposta" ]];
+    then
+        flag_hping3=$(echo $pega_flag_resposta | awk -F":" '{sub(/[0-9]/, ":"); print $1}' )
+        if [[ -n "$3" ]]
+        then
+        flag_hping3="${flag_hping3//$'\n'/}"
+            if [[ "$flag_hping3" =~ ".R.A..." ]];
+            then
+                enderecos_up+=( "$ip_ativo -> Porta $porta/tcp ($servico)  [   Fechada   ]")
                 echo "${enderecos_up[-1]}"
             else
-                flag=$(echo $flag_response | awk -F" "  '{ print $7 }' | awk -F= '{ print $2}')
-                flag="${flag//$'\n'/}"
-                if [[ "$flag" == "SA" ]];
-                then
-                    enderecos_up+=( "$ip_ativo -> Porta $porta/tcp [   Aberta   ]")
-                    echo "${enderecos_up[-1]}"
-                elif [[ "$flag" == "RA" ]]
-                then
-                    enderecos_up+=( "$ip_ativo -> Porta $porta/tcp [   Fechada   ]")
-                    echo "${enderecos_up[-1]}"
-                else
-                    enderecos_up+=( "$ip_ativo -> Porta $porta/tcp [ Inacessivel ]")
-                    echo "${enderecos_up[-1]}"
-                fi
+                enderecos_up+=( "$ip_ativo -> Porta $porta/tcp ($servico)  [   Aberta   ]")
+                echo "${enderecos_up[-1]}"
+            fi 
+        else
+            if [[ "$flag_hping3" =~ ".S..A..." ]];
+            then
+                enderecos_up+=( "$ip_ativo -> Porta $porta/tcp ($servico) [   Aberta   ]")
+                echo "${enderecos_up[-1]}"
             fi
+        fi       
+    else 
+        enderecos_up+=( "$ip_ativo -> Porta $porta/tcp ($servico) [   Filtrada  ]")
+        echo "${enderecos_up[-1]}"
+    fi
 }
 
-
-# sudo hping3 -c 1 --syn -8 "$2" "$1" -V | grep -i .s..a 
-varrer_rede $1 $2
-
- #nc -v 192.168.15.171 80
- 
- # sudo hping3 -c 1 --syn -8 22-100 192.168.15.171 -V || sudo hping3 -c 1 --syn -8 22-100 192.168.15.171 -V | grep -i .s..a | awk '{ print $2 }'
-
+varrer_rede $1 $2 $3
