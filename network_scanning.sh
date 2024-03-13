@@ -1,15 +1,17 @@
 #!/bin/bash
 
-#clear
+clear
 
 varrer_rede(){
     local endereco_ip=$(echo $1 | awk -F. '{ print $1"."$2"."$3"." }')
-    for ip in $(seq 171 171)
+    for ip in $(seq 1 255)
     do 
         host_up=$(ping -c1 $endereco_ip$ip -w1 | grep -i ^64 | awk -F" " '{ print $1 }')
-        if [ -n $host_up ];
+        if [ "$host_up" == "64" ];
         then
             local ip_completo=$endereco_ip$ip 
+            echo "O endereço $ip_completo está ativo."
+            echo "Iniciando a varredura de portas . . . . ." 
             scan_portas $ip_completo $2 $3
         fi
     done
@@ -53,26 +55,22 @@ verifica_status_porta(){
         flag_hping3="${flag_hping3//$'\n'/}"
             if [[ "$flag_hping3" =~ ".R.A..." ]];
             then
-                enderecos_up+=( "$ip_ativo -> Porta $porta/tcp ($servico)  [   Fechada   ]")
-                echo "${enderecos_up[-1]}"
+                echo "$ip_ativo -> Porta $porta/tcp ($servico)  [   Fechada   ]"
             else
-                enderecos_up+=( "$ip_ativo -> Porta $porta/tcp ($servico)  [   Aberta   ]")
-                echo "${enderecos_up[-1]}"
+                echo "$ip_ativo -> Porta $porta/tcp ($servico)  [   Aberta   ]"
             fi 
         else
             if [[ "$flag_hping3" =~ ".S..A..." ]];
             then
-                enderecos_up+=( "$ip_ativo -> Porta $porta/tcp ($servico) [   Aberta   ]")
-                echo "${enderecos_up[-1]}"
+                echo "$ip_ativo -> Porta $porta/tcp ($servico) [   Aberta   ]"
             fi
         fi       
     else 
-        enderecos_up+=( "$ip_ativo -> Porta $porta/tcp ($servico) [   Filtrada  ]")
-        echo "${enderecos_up[-1]}"
+        echo "$ip_ativo -> Porta $porta/tcp ($servico) [   Filtrada  ]"
     fi
 }
 
-if [[ $3 == -v ]];
+if [[ $3 == "-v" ]];
 then
     argumento_v=$3
 else
