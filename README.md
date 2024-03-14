@@ -21,7 +21,7 @@ O Netscan (network_scanning) é uma ferramenta de código aberto para exploraç�
 
 1) Passando ip como argumento:
 
-   * `./network_scanner.sh 10.0.0.100`
+   * `netscan 10.0.0.100`
 
 (print de exemplo)
 
@@ -29,7 +29,7 @@ O Netscan (network_scanning) é uma ferramenta de código aberto para exploraç�
 
 2) Passando sequência ip's como argumento:
 
-   * `./network_scanner.sh 10.0.0.100`
+   * `netscan 10.0.0.100`
 
 (print de exemplo)
 
@@ -37,27 +37,27 @@ O Netscan (network_scanning) é uma ferramenta de código aberto para exploraç�
 
 3) Passando portas como argumento:
 
-   * `./network_scanner.sh 10.0.0.100 22,23,24,25,26`
+   * `netscan 10.0.0.100 22,23,24,25,26`
 
 (print de exemplo)
 
 ---
 4) Passando sequência de portas como argumento:
 
-    * `./network_scanner.sh 10.0.0.100 22-26`
+    * `netscan 10.0.0.100 22-26`
 
 (print de exemplo)
 
 ---
 5) Opção detalhada:
 
-    * `./network_scanner.sh 10.0.0.100 22 -v`
+    * `netscan 10.0.0.100 22 -v`
 
 (print de exemplo)
 
 ---
 6) Sem argumentos:
 
-    * `./network_scanner.sh`
+    * `netscan`
 ###### O script irá buscar o ip da máquina atual e realizara a varredura a da rede em que o host esta inserido.
 ---
