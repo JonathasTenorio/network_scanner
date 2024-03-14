@@ -1,7 +1,5 @@
 #!/bin/bash
 
-#clear
-
 varrer_rede(){
     local is_range=$(echo "$1" | awk -F- '{ print $2 }')
     is_range=$(echo "$is_range" | awk '{gsub(" ",""); print }')
@@ -103,8 +101,8 @@ netscan_install(){
         sudo mkdir $existe_dir    
     fi
     sudo cp network_scanning.sh $existe_dir/network_scanning.sh
-    sudo echo "alias netscan='bash /usr/share/netscan/network_scanning.sh'" >> ~/.bashrc 
-    echo "Ao final utilize o comando source ~/.bashrc ou abra uma nova aba do terminal"
+    sudo echo "alias netscan='bash /usr/share/netscan/network_scanning.sh'" >> ~/.bash_aliases
+    echo "Ao final utilize o comando source ~/.bash_aliases ou abra uma nova aba do terminal"
 }
 
 netscan_install_dependencias(){
@@ -135,7 +133,8 @@ netscan_install_dependencias(){
             pacman -S gawk hping3  
             break;;
         *)
-            echo "OS não suportado, instale as pendencias manualmente."
+            echo "OS não suportado, verifique se as dependências foram instaladas corretamente"
+            echo " ou as instale manualmente."
         esac
     fi
 }
@@ -169,7 +168,7 @@ verifica_args(){
     else  
         echo "Formato de ip inválido"
         echo "Requisitando ip do host atual . . . "
-        local ip_host_atual=$(ip addr | grep -i "scope global" | awk -F" " '{ gsub("/", " "); print $2 }' )
+        local ip_host_atual=$(ip addr | grep -E '\binet\b.*\bscope global\b' | awk -F" " '{ gsub("/", " "); print $2 }' )
 
         if [[ $ip_host_atual =~ $formato_ip ]];
         then

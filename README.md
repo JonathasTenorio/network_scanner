@@ -27,7 +27,7 @@ O Netscan (network_scanning) é uma ferramenta de código aberto para exploraç�
 
 ---
 
-2) Passando ip como argumento:
+2) Passando sequência ip's como argumento:
 
    * `./network_scanner.sh 10.0.0.100`
 
@@ -49,7 +49,7 @@ O Netscan (network_scanning) é uma ferramenta de código aberto para exploraç�
 (print de exemplo)
 
 ---
-5) Opção verbosa:
+5) Opção detalhada:
 
     * `./network_scanner.sh 10.0.0.100 22 -v`
 
