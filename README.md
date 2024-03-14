@@ -14,50 +14,70 @@ Requisitos:
 ### Sinopse
 
 
-O Netscan (network_scanning) é uma ferramenta de código aberto para exploração de rede. Esta ferramenta foi desenvolvida para escanear redes internas em busca de hosts ativos e os serviços que estão ativos.
+O Netscan (network_scanning) é uma ferramenta de código aberto para varredura de redes internas. Esta ferramenta foi desenvolvida para escanear redes internas em busca de hosts e serviços ativos, utilizando o protocolo tcp para detectar as portas e serviços.
 
 ---
 ### Modo de uso:
+
+#### Primeiro uso:
+        Ao utilizar o netscan pela primeira vez, é necessário passar os argumentos que deseja como ip(s) e porta(s) de destino pois na primeira utilização ele ira tentar baixar as dependências para ser executado e se configurar na pasta `/usr/share/netscan`
+        Após o primeiro uso ele pode ser invocado através do comando `netscan`
+
+    Caso apresente erros ao utilizar, verifique se as ferramentas grep, hping3 e gawk estão devidamente instaladas no OS, para um bom funcionamento do script é necessário ser utilizado com permissão de super usuário (sudo).
+
 
 1) Passando ip como argumento:
 
    * `netscan 10.0.0.100`
 
-(print de exemplo)
+    Realiza a varredura  do host atual e das portas 1 até 100 por padrão.
 
 ---
 
 2) Passando sequência ip's como argumento:
 
-   * `netscan 10.0.0.100`
+   * `netscan 10.0.0.100,102,115,200`
 
-(print de exemplo)
+    Realiza a varredura  dos hosts na ordem indicada e para cada host, a varredura  das 100 primeiras portas por padrão.
 
 ---
 
-3) Passando portas como argumento:
+3) Passando intervalo ip's como argumento:
+
+   * `netscan 10.0.0.100-200`
+
+   Realiza a varredura  no intervalo do último octeto até o indicado, apenas intervalo de ordem crescente não resultará em erro.
+
+---
+
+4) Passando portas como argumento:
 
    * `netscan 10.0.0.100 22,23,24,25,26`
 
-(print de exemplo)
+    Realiza a varredura  da sequência de portas.
 
 ---
-4) Passando sequência de portas como argumento:
+5) Passando intervalo de portas como argumento:
 
     * `netscan 10.0.0.100 22-26`
 
-(print de exemplo)
+        Realiza a varredura  do intervalo das portas.
 
 ---
-5) Opção detalhada:
+6) Opção detalhada:
 
     * `netscan 10.0.0.100 22 -v`
 
-(print de exemplo)
+        Durante a varredura das portas exibe também as portas fechadas.
 
 ---
 6) Sem argumentos:
 
     * `netscan`
-###### O script irá buscar o ip da máquina atual e realizara a varredura a da rede em que o host esta inserido.
+
+        Por padrão o script ira utilizar o ip atual do host para varrer a rede no intervalo de 1 até 255 e para cada host marcado como ativo, realizara varredura das 100 primeiras portas.
 ---
+
+### Remoção do Netscan
+    Para remover o netscan basta executar o comando `sudo rm -rf /usr/share/netscan, que é o local onde o script se configura.
+    Para remoção do comando netscan, edite o arquivo `~/.bash_aliases` e remova a linha na qual consta o netscan. 

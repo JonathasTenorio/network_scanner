@@ -1,11 +1,15 @@
 #!/bin/bash
 
 varrer_rede(){
-    local is_range=$(echo "$1" | awk -F- '{ print $2 }')
-    is_range=$(echo "$is_range" | awk '{gsub(" ",""); print }')
+    local is_range=$(echo "$1" | awk -F- '{gsub(" ",""); print $2 }')
     if [[ -z $is_range ]];
     then
-        host_discover "$1" "$2" "$3"
+        read -r -a hosts <<< "$(echo "$1" | awk -F. '{gsub(",", " "); print $4 }')"
+        for host in "${hosts[@]}"
+        do
+            endereco_host=$(echo $1 | awk -F. '{ print $1"."$2"."$3"." }')
+            host_discover "$endereco_host$host" "$2" "$3"
+        done
     else
         local inicio=$(echo "$1" | awk -F. '{ gsub("-","."); print $4 }' )
         local fim=$(echo "$1" | awk -F. '{ gsub("-","."); print $5 }' ) #awk -F- '{ print $2 }'
@@ -174,8 +178,13 @@ verifica_args(){
         then
             echo "Requisição concluida com susesso!"
             echo "Iniciando a varredura da rede . . . "
-            echo $ip_host_atual $porta_alvo $argumento_v
-            varrer_rede "$ip_host_atual" "$porta_alvo $argumento_v"
+            echo "+-----------------------+------------+"
+            echo "|  ip host atual        |   porta    |"
+            echo "+-----------------------+------------+"
+            echo "|      $ip_host_atual     | $porta_alvo      |"
+            echo "+-----------------------+------------+"
+            ip_host_atual=$(echo "$ip_host_atual" | awk -F. '{ gsub($4,"1-255"); print }' )
+            varrer_rede "$ip_host_atual" "$porta_alvo" "$argumento_v"
         else
             echo "Não foi possível concluir a requisição do ip com sucesso."
             echo "Verifique a situação da sua placa de rede . . ." 
