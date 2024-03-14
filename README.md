@@ -82,7 +82,7 @@ estão devidamente instaladas no OS, para um bom funcionamento do script é   ne
 
 ### Remoção do Netscan
 
-Para remover o netscan basta executar o comando `sudo rm -rf /usr/sharenetscan, que é o local onde o script se configura.
+Para remover o netscan basta executar o comando `sudo rm -rf /usr/sharenetscan`, que é o local onde o script se configura.
 
 Para remoção do comando netscan, edite o arquivo `~/.bash_aliases` e remova alinha na qual consta o netscan.
 
