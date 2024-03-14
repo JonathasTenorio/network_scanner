@@ -20,10 +20,12 @@ O Netscan (network_scanning) é uma ferramenta de código aberto para varredura 
 ### Modo de uso:
 
 #### Primeiro uso:
-        Ao utilizar o netscan pela primeira vez, é necessário passar os argumentos que deseja como ip(s) e porta(s) de destino pois na primeira utilização ele ira tentar baixar as dependências para ser executado e se configurar na pasta `/usr/share/netscan`
-        Após o primeiro uso ele pode ser invocado através do comando `netscan`
 
-    Caso apresente erros ao utilizar, verifique se as ferramentas grep, hping3 e gawk estão devidamente instaladas no OS, para um bom funcionamento do script é necessário ser utilizado com permissão de super usuário (sudo).
+Ao utilizar o netscan pela primeira vez, é necessário passar os argumentos quedeseja como ip(s) e porta(s) de destino pois na primeira utilização ele iratentar baixar as dependências para ser executado e se configurar na pasta `usr/share/netscan`
+    
+Após o primeiro uso ele pode ser invocado através do comando `netscan`
+Caso apresente erros ao utilizar, verifique se as ferramentas grep, hping3 e gawk
+estão devidamente instaladas no OS, para um bom funcionamento do script é   necessário ser utilizado com permissão de super usuário (sudo).
 
 
 1) Passando ip como argumento:
@@ -79,5 +81,9 @@ O Netscan (network_scanning) é uma ferramenta de código aberto para varredura 
 ---
 
 ### Remoção do Netscan
-    Para remover o netscan basta executar o comando `sudo rm -rf /usr/share/netscan, que é o local onde o script se configura.
-    Para remoção do comando netscan, edite o arquivo `~/.bash_aliases` e remova a linha na qual consta o netscan. 
+
+Para remover o netscan basta executar o comando `sudo rm -rf /usr/sharenetscan, que é o local onde o script se configura.
+
+Para remoção do comando netscan, edite o arquivo `~/.bash_aliases` e remova alinha na qual consta o netscan.
+
+---
