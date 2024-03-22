@@ -21,9 +21,9 @@ O Netscan (network_scanning) é uma ferramenta de código aberto para varredura 
 
 #### Primeiro uso:
 
-Ao utilizar o netscan pela primeira vez, é necessário passar os argumentos quedeseja como ip(s) e porta(s) de destino pois na primeira utilização ele iratentar baixar as dependências para ser executado e se configurar na pasta `usr/share/netscan`
+Ao utilizar o netscan pela primeira vez, é necessário passar os argumentos que deseja como ip(s) e porta(s) de destino pois na primeira utilização ele ira tentar baixar as dependências para ser executado e se configurar na pasta `usr/share/netscan`
     
-Após o primeiro uso ele pode ser invocado através do comando `netscan`
+Após o primeiro uso ele pode ser invocado através do comando `netscan`. 
 Caso apresente erros ao utilizar, verifique se as ferramentas grep, hping3 e gawk
 estão devidamente instaladas no OS, para um bom funcionamento do script é   necessário ser utilizado com permissão de super usuário (sudo).
 
@@ -48,7 +48,7 @@ estão devidamente instaladas no OS, para um bom funcionamento do script é   ne
 
    * `netscan 10.0.0.100-200`
 
-   Realiza a varredura  no intervalo do último octeto até o indicado, apenas intervalo de ordem crescente não resultará em erro.
+   Realiza a varredura  no intervalo do último octeto até o indicado, apenas intervalo de ordem crescente se não resultará em erro.
 
 ---
 
@@ -73,7 +73,7 @@ estão devidamente instaladas no OS, para um bom funcionamento do script é   ne
         Durante a varredura das portas exibe também as portas fechadas.
 
 ---
-6) Sem argumentos:
+7) Sem argumentos:
 
     * `netscan`
 
